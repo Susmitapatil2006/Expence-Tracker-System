@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Settings</title>
+
+    <link rel="stylesheet" href="settings.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>Expense Tracker</h2>
+
+        <ul>
+
+            <li>
+                <i class="ri-dashboard-fill"></i>
+                <a href="index.html">Dashboard</a>
+            </li>
+
+            <li>
+                <i class="ri-wallet-3-fill"></i>
+                <a href="transactions.html">Transactions</a>
+            </li>
+
+            <li>
+                <i class="ri-bar-chart-fill"></i>
+                <a href="analytics.html">Analytics</a>
+            </li>
+
+            <li>
+                <i class="ri-bank-card-fill"></i>
+                <a href="budget.html">Budget</a>
+            </li>
+
+            <li>
+                <i class="ri-user-3-fill"></i>
+                <a href="profile.html">Profile</a>
+            </li>
+
+            <li class="active">
+                <i class="ri-settings-3-fill"></i>
+                <a href="settings.html">Settings</a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- HEADER -->
+
+        <div class="settings-header">
+
+            <div>
+
+                <h1>Settings ⚙️</h1>
+
+                <p>
+                    Manage your account settings
+                </p>
+
+            </div>
+
+            <!-- SAVE BUTTON -->
+
+            <button class="save-btn"
+                onclick="saveChanges()">
+
+                <i class="ri-save-line"></i>
+
+                Save Changes
+
+            </button>
+
+        </div>
+
+        <!-- SETTINGS CARDS -->
+
+        <div class="settings-grid">
+
+            <!-- PASSWORD -->
+
+            <div class="settings-card">
+
+                <div class="card-top">
+
+                    <i class="ri-lock-password-fill"></i>
+
+                    <h2>Change Password</h2>
+
+                </div>
+
+                <p>
+                    Update your account password.
+                </p>
+
+                <button onclick="changePassword()">
+
+                    Change Password
+
+                </button>
+
+            </div>
+
+            <!-- DARK MODE -->
+
+            <div class="settings-card">
+
+                <div class="card-top">
+
+                    <i class="ri-moon-fill"></i>
+
+                    <h2>Dark Theme</h2>
+
+                </div>
+
+                <p>
+                    Enable or disable dark mode.
+                </p>
+
+                <button onclick="toggleDarkMode()">
+
+                    Dark Mode
+
+                </button>
+
+            </div>
+
+            <!-- NOTIFICATIONS -->
+
+            <div class="settings-card">
+
+                <div class="card-top">
+
+                    <i class="ri-notification-3-fill"></i>
+
+                    <h2>Notifications</h2>
+
+                </div>
+
+                <p>
+                    Manage your notifications.
+                </p>
+
+                <button onclick="toggleNotification()">
+
+                    Notifications
+
+                </button>
+
+            </div>
+
+            <!-- PRIVACY -->
+
+            <div class="settings-card">
+
+                <div class="card-top">
+
+                    <i class="ri-shield-check-fill"></i>
+
+                    <h2>Privacy</h2>
+
+                </div>
+
+                <p>
+                    Manage your privacy settings.
+                </p>
+
+                <button onclick="privacySettings()">
+
+                    Privacy Settings
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- STATUS -->
+
+        <div class="status-box"
+            id="statusBox">
+
+            Ready
+
+        </div>
+
+        <!-- SAVE POPUP -->
+
+        <div class="save-popup"
+            id="savePopup">
+
+            <div class="save-content">
+
+                <i class="ri-checkbox-circle-fill"></i>
+
+                <h2>Settings Saved Successfully</h2>
+
+                <p>
+                    Your settings have been updated.
+                </p>
+
+                <button onclick="closeSavePopup()">
+
+                    OK
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+// ==========================
+// CURRENT USER
+// ==========================
+
+let currentUser =
+localStorage.getItem("currentUser");
+
+if(!currentUser){
+
+window.location.href =
+"login.html";
+
+}
+
+// ==========================
+// USER SETTINGS LOAD
+// ==========================
+
+let settings = JSON.parse(
+
+localStorage.getItem(
+`settings_${currentUser}`
+)
+
+) || {
+
+darkMode:false,
+notifications:true,
+currency:"₹",
+language:"English"
+
+};
+
+// ==========================
+// APPLY SETTINGS
+// ==========================
+
+function applySettings(){
+
+// DARK MODE
+
+if(settings.darkMode){
+
+document.body.classList.add(
+"dark-theme"
+);
+
+}
+
+// STATUS
+
+updateStatus(
+"⚙ Settings Loaded Successfully"
+);
+
+}
+
+applySettings();
+
+// ==========================
+// STATUS UPDATE
+// ==========================
+
+function updateStatus(message){
+
+document.getElementById(
+"statusBox"
+).innerHTML = message;
+
+}
+
+// ==========================
+// SAVE SETTINGS
+// ==========================
+
+function saveUserSettings(){
+
+localStorage.setItem(
+
+`settings_${currentUser}`,
+
+JSON.stringify(settings)
+
+);
+
+}
+
+// ==========================
+// SAVE CHANGES BUTTON
+// ==========================
+
+function saveChanges(){
+
+let saveBtn =
+document.querySelector(".save-btn");
+
+saveBtn.innerHTML =
+"Saving...";
+
+saveBtn.disabled = true;
+
+updateStatus(
+"⏳ Saving Changes..."
+);
+
+setTimeout(()=>{
+
+saveUserSettings();
+
+document.getElementById(
+"savePopup"
+).style.display = "flex";
+
+updateStatus(
+"✅ Settings Saved Successfully"
+);
+
+saveBtn.innerHTML =
+`<i class="ri-save-line"></i> Save Changes`;
+
+saveBtn.disabled = false;
+
+},1500);
+
+}
+
+// ==========================
+// CLOSE POPUP
+// ==========================
+
+function closeSavePopup(){
+
+document.getElementById(
+"savePopup"
+).style.display = "none";
+
+}
+
+// ==========================
+// CHANGE PASSWORD
+// ==========================
+
+function changePassword(){
+
+let oldPassword =
+prompt("Enter Old Password");
+
+if(oldPassword == null) return;
+
+let newPassword =
+prompt("Enter New Password");
+
+if(newPassword == null) return;
+
+if(newPassword.trim() === ""){
+
+updateStatus(
+"❌ Password Cannot Be Empty"
+);
+
+return;
+
+}
+
+// LOAD USERS
+
+let users = JSON.parse(
+localStorage.getItem("users")
+) || [];
+
+// FIND CURRENT USER
+
+let userIndex =
+users.findIndex(user =>
+
+user.email === currentUser
+
+);
+
+if(userIndex === -1){
+
+updateStatus(
+"❌ User Not Found"
+);
+
+return;
+
+}
+
+// CHECK OLD PASSWORD
+
+if(users[userIndex].password !== oldPassword){
+
+updateStatus(
+"❌ Old Password Incorrect"
+);
+
+return;
+
+}
+
+// UPDATE PASSWORD
+
+users[userIndex].password =
+newPassword;
+
+// SAVE
+
+localStorage.setItem(
+"users",
+JSON.stringify(users)
+);
+
+updateStatus(
+"✅ Password Changed Successfully"
+);
+
+}
+// ==========================
+// DARK MODE
+// ==========================
+
+function toggleDarkMode(){
+
+document.body.classList.toggle(
+"dark-theme"
+);
+
+// CHECK CURRENT MODE
+
+let isDark =
+document.body.classList.contains(
+"dark-theme"
+);
+
+// SAVE FOR WHOLE WEBSITE
+
+localStorage.setItem(
+"theme",
+isDark ? "dark" : "light"
+);
+
+if(isDark){
+
+updateStatus(
+"🌙 Dark Mode Enabled"
+);
+
+}
+
+else{
+
+updateStatus(
+"☀ Light Mode Enabled"
+);
+
+}
+
+}
+// ==========================
+// NOTIFICATIONS
+// ==========================
+
+function toggleNotification(){
+
+settings.notifications =
+!settings.notifications;
+
+saveUserSettings();
+
+if(settings.notifications){
+
+updateStatus(
+"🔔 Notifications Enabled"
+);
+
+}
+
+else{
+
+updateStatus(
+"🔕 Notifications Disabled"
+);
+
+}
+
+}
+
+// ==========================
+// PRIVACY SETTINGS
+// ==========================
+
+function privacySettings(){
+
+let confirmPrivacy =
+confirm(
+
+"Enable Private Mode?"
+
+);
+
+if(confirmPrivacy){
+
+updateStatus(
+"🔒 Privacy Mode Enabled"
+);
+
+}
+
+else{
+
+updateStatus(
+"⚠ Privacy Settings Cancelled"
+);
+
+}
+
+}
+
+// ==========================
+// REAL TIME STORAGE UPDATE
+// ==========================
+
+window.addEventListener(
+"storage",
+()=>{
+
+settings = JSON.parse(
+
+localStorage.getItem(
+`settings_${currentUser}`
+)
+
+) || settings;
+
+applySettings();
+
+}
+);
+
+// ==========================
+// AUTO THEME LOAD
+// ==========================
+
+window.onload = ()=>{
+
+applySettings();
+
+};
+
+// ==========================
+// KEYBOARD SHORTCUT
+// ==========================
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+if(e.ctrlKey && e.key === "s"){
+
+e.preventDefault();
+
+saveChanges();
+
+}
+
+}
+);
+// ==========================
+// LOAD THEME
+// ==========================
+
+let savedTheme =
+localStorage.getItem("theme");
+
+if(savedTheme === "dark"){
+
+document.body.classList.add(
+"dark-theme"
+);
+
+}
+
+    </script>
+
+</body>
+
+</html>

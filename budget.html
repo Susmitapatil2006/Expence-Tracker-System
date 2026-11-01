@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Budget</title>
+
+    <link rel="stylesheet" href="budget.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div class="menu-btn" onclick="toggleSidebar()">
+    <i class="ri-menu-line"></i>
+   </div>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div>
+
+            <h2>Expense Tracker</h2>
+
+            <ul>
+
+                <li>
+                    <i class="ri-dashboard-fill"></i>
+                    <a href="index.html">Dashboard</a>
+                </li>
+
+                <li>
+                    <i class="ri-wallet-3-fill"></i>
+                    <a href="transactions.html">Transactions</a>
+                </li>
+
+                <li>
+                    <i class="ri-bar-chart-fill"></i>
+                    <a href="analytics.html">Analytics</a>
+                </li>
+
+                <li class="active">
+                    <i class="ri-bank-card-fill"></i>
+                    <a href="budget.html">Budget</a>
+                </li>
+
+                <li>
+                    <i class="ri-user-3-fill"></i>
+                    <a href="profile.html">Profile</a>
+                </li>
+
+                <li>
+                    <i class="ri-settings-3-fill"></i>
+                    <a href="settings.html">Settings</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- HEADER -->
+
+        <div class="budget-header">
+
+            <div>
+
+                <h1>Budget Overview 💰</h1>
+
+                <p>
+                    Track and manage your monthly budget
+                </p>
+
+            </div>
+
+            <button onclick="addBudget()">
+
+                <i class="ri-add-circle-fill"></i>
+
+                Add Budget
+
+            </button>
+            <button onclick="editBudget()">
+Edit Budget
+</button>
+
+<button onclick="deleteBudget()">
+Delete Budget
+</button>
+
+<button onclick="toggleDarkMode()">
+Dark Mode
+</button>
+
+        </div>
+
+        <!-- BUDGET CARDS -->
+
+        <div class="budget-container">
+
+            <!-- TOTAL BUDGET -->
+
+            <div class="budget-box">
+
+                <i class="ri-bank-card-fill"></i>
+
+                <h2>Total Budget</h2>
+
+                <p id="totalBudget">
+
+                    ₹20,000
+
+                </p>
+
+            </div>
+
+            <!-- TOTAL EXPENSE -->
+
+            <div class="budget-box">
+
+                <i class="ri-shopping-bag-3-fill"></i>
+
+                <h2>Total Expense</h2>
+
+                <p id="totalExpense">
+
+                    ₹15,000
+
+                </p>
+
+            </div>
+
+            <!-- REMAINING -->
+
+            <div class="budget-box">
+
+                <i class="ri-wallet-3-fill"></i>
+
+                <h2>Remaining Budget</h2>
+
+                <p id="remainingBudget">
+
+                    ₹5000
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- PROGRESS SECTION -->
+
+        <div class="progress-section">
+
+            <div class="progress-card">
+
+                <div class="progress-top">
+
+<h2>Monthly Spending</h2>
+
+<span id="progressPercent">0%</span>
+
+</div>
+
+<div class="progress-bar">
+
+<div class="progress-fill" id="progressFill">
+
+</div>
+
+</div>
+
+<p id="progressText">₹0 spent from ₹0</p>
+
+        <!-- CATEGORY SECTION -->
+
+        <div class="category-section">
+
+            <h2>Expense Categories</h2>
+
+            <div class="category-container">
+
+                <div class="category-box">
+
+                    <i class="ri-restaurant-fill"></i>
+
+                    <h3>Food</h3>
+
+                    <p id="foodAmount">₹0</p>
+
+                </div>
+
+                <div class="category-box">
+
+                    <i class="ri-shopping-cart-fill"></i>
+
+                    <h3>Shopping</h3>
+
+                    <p id="shoppingAmount">₹0</p>
+
+                </div>
+
+                <div class="category-box">
+
+                    <i class="ri-car-fill"></i>
+
+                    <h3>Travel</h3>
+
+                    <p id="travelAmount">₹0</p>
+
+                </div>
+
+                <div class="category-box">
+
+                    <i class="ri-home-4-fill"></i>
+
+                    <h3>Bills</h3>
+
+                    <p id="billsAmount">₹0</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SAVINGS GOAL -->
+
+        <div class="goal-section">
+
+<h2>Smart Suggestions 🤖</h2>
+
+<div id="suggestionBox">
+
+Suggestions Here
+
+</div>
+
+</div>
+<div class="goal-section">
+
+<h2>Upcoming Bills 🔔</h2>
+
+<p>Electricity Bill - 25 May</p>
+
+<p>Internet Recharge - 28 May</p>
+
+</div>
+<div class="goal-section">
+
+<h2>Budget Chart 📊</h2>
+
+<div style="width:300px; height:300px; margin:auto;">
+    <canvas id="budgetChart"></canvas>
+</div>
+
+</div>
+<div class="goal-progress">
+
+<div class="progress-bar">
+
+<div class="progress-fill"
+id="goalFill"></div>
+
+</div>
+
+<h3 id="goalText">
+₹0 Saved
+</h3>
+
+</div>
+
+        <!-- STATUS -->
+
+        <div class="status-box"
+            id="statusBox">
+
+            Budget Ready
+
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+let currentUser =
+localStorage.getItem("currentUser");
+
+if(!currentUser){
+
+window.location.href =
+"login.html";
+
+}
+
+let transactions = JSON.parse(
+
+localStorage.getItem(
+`transactions_${currentUser}`
+)
+
+) || [];
+
+let totalBudget =
+
+localStorage.getItem(
+`budgetAmount_${currentUser}`
+) || 0;
+
+
+// UPDATE BUDGET
+
+function updateBudget(){
+
+let totalExpense = 0;
+
+let food = 0;
+let shopping = 0;
+let travel = 0;
+let bills = 0;
+
+transactions.forEach(item=>{
+
+const amount =
+Number(item.amount);
+
+const category =
+(item.category || "")
+.toLowerCase();
+
+if(amount < 0){
+
+const expense =
+Math.abs(amount);
+
+totalExpense += expense;
+
+if(category.includes("food")){
+
+food += expense;
+
+}
+
+if(category.includes("shopping")){
+
+shopping += expense;
+
+}
+
+if(category.includes("travel")){
+
+travel += expense;
+
+}
+
+if(category.includes("bills")){
+
+bills += expense;
+
+}
+
+}
+
+});
+
+const remaining =
+totalBudget - totalExpense;
+
+let progress = 0;
+
+if(totalBudget > 0){
+
+progress = Math.floor(
+(totalExpense / totalBudget) * 100
+);
+
+}
+
+const savings =
+Math.max(remaining,0);
+
+
+// TOP CARDS
+
+document.getElementById("totalBudget")
+.innerHTML =
+"₹" + totalBudget;
+
+document.getElementById("totalExpense")
+.innerHTML =
+"₹" + totalExpense;
+
+document.getElementById("remainingBudget")
+.innerHTML =
+"₹" + remaining;
+
+
+// CATEGORY
+
+document.getElementById("foodAmount")
+.innerHTML =
+"₹" + food;
+
+document.getElementById("shoppingAmount")
+.innerHTML =
+"₹" + shopping;
+
+document.getElementById("travelAmount")
+.innerHTML =
+"₹" + travel;
+
+document.getElementById("billsAmount")
+.innerHTML =
+"₹" + bills;
+
+
+// PROGRESS
+
+document.getElementById("progressPercent")
+.innerHTML =
+progress + "%";
+
+document.getElementById("progressFill")
+.style.width =
+(progress > 100 ? 100 : progress)
++ "%";
+
+document.getElementById("progressText")
+.innerHTML =
+"₹" + totalExpense +
+" spent from ₹" +
+totalBudget;
+
+
+// GOAL
+
+document.getElementById("goalText")
+.innerHTML =
+"₹" + savings + " Saved";
+
+document.getElementById("goalFill")
+.style.width =
+(progress > 100 ? 100 : progress)
++ "%";
+
+
+// STATUS
+
+if(progress >= 100){
+
+document.getElementById("statusBox")
+.innerHTML =
+"🔴 Budget Limit Exceeded";
+
+}
+
+else if(progress >= 80){
+
+document.getElementById("statusBox")
+.innerHTML =
+"🟡 Warning : 80% Budget Used";
+
+alert("⚠ 80% Budget Used");
+
+}
+
+else{
+
+document.getElementById("statusBox")
+.innerHTML =
+"🟢 Budget Healthy";
+
+}
+
+
+// SMART SUGGESTION
+
+if(totalExpense > 10000){
+
+document.getElementById("suggestionBox")
+.innerHTML =
+"💡 Try reducing Shopping Expenses";
+
+}
+
+else{
+
+document.getElementById("suggestionBox")
+.innerHTML =
+"✅ Budget Management is Good";
+
+}
+
+
+// PIE CHART
+
+loadChart(totalExpense,remaining);
+
+}
+
+
+// ADD BUDGET
+
+function addBudget(){
+
+let amount =
+prompt("Enter New Budget Amount");
+
+if(amount && amount > 0){
+
+totalBudget = Number(amount);
+
+localStorage.setItem(
+
+`budgetAmount_${currentUser}`,
+
+totalBudget
+
+);
+
+updateBudget();
+
+document.getElementById("statusBox")
+.innerHTML =
+"✅ Budget Updated Successfully";
+
+}
+
+}
+
+
+// EDIT BUDGET
+
+function editBudget(){
+
+let current =
+totalBudget;
+
+let newBudget =
+prompt("Edit Budget",current);
+
+if(newBudget && newBudget > 0){
+
+totalBudget =
+Number(newBudget);
+
+localStorage.setItem(
+
+`budgetAmount_${currentUser}`,
+
+totalBudget
+
+);
+
+updateBudget();
+
+document.getElementById("statusBox")
+.innerHTML =
+"✏ Budget Edited Successfully";
+
+}
+
+}
+
+
+// DELETE BUDGET
+
+function deleteBudget(){
+
+if(confirm("Delete Budget?")){
+
+totalBudget = 0;
+
+localStorage.removeItem(
+
+`budgetAmount_${currentUser}`
+
+);
+
+updateBudget();
+
+document.getElementById("statusBox")
+.innerHTML =
+"🗑 Budget Deleted";
+
+}
+
+}
+
+
+// DARK MODE
+
+function toggleDarkMode(){
+
+document.body
+.classList.toggle("dark-mode");
+
+}
+
+
+// SIDEBAR
+
+function toggleSidebar(){
+
+document.querySelector(".sidebar")
+.classList.toggle("activeSidebar");
+
+}
+
+
+// PIE CHART
+
+let myChart;
+
+function loadChart(expense,remaining){
+
+const ctx =
+document.getElementById("budgetChart");
+
+if(myChart){
+
+myChart.destroy();
+
+}
+
+myChart = new Chart(ctx,{
+
+type:"pie",
+
+data:{
+
+labels:[
+"Expense",
+"Remaining"
+],
+
+datasets:[{
+
+data:[
+expense,
+remaining
+],
+
+backgroundColor:[
+
+"#ef4444",
+"#10b981"
+
+]
+
+}]
+
+},
+
+options:{
+    responsive:true,
+    maintainAspectRatio:false
+}
+});
+
+}
+
+
+// PAGE LOAD
+
+updateBudget();
+window.addEventListener("storage",()=>{
+
+transactions = JSON.parse(
+
+localStorage.getItem(
+`transactions_${currentUser}`
+)
+
+) || [];
+
+totalBudget =
+
+localStorage.getItem(
+`budgetAmount_${currentUser}`
+) || 0;
+
+updateBudget();
+
+});
+// ==========================
+// LOAD THEME
+// ==========================
+
+let savedTheme =
+localStorage.getItem("theme");
+
+if(savedTheme === "dark"){
+
+document.body.classList.add(
+"dark-theme"
+);
+
+}
+
+</script>
+
+</body>
+
+</html>

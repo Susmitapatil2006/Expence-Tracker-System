@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Advanced Expense Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="menu-toggle" onclick="toggleMenu()">
+    <i class="ri-menu-line"></i>
+</div>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div>
+
+            <h2>Expense Tracker</h2>
+
+            <ul>
+
+                <li class="active">
+                    <i class="ri-dashboard-fill"></i>
+                    <a href="#">Dashboard</a>
+                </li>
+
+                <li id="transactionsBtn">
+                    <i class="ri-wallet-3-fill"></i>
+                    <a href="transactions.html">Transactions</a>
+                </li>
+
+                <li id="analyticsBtn">
+                    <i class="ri-bar-chart-fill"></i>
+                    <a href="analytics.html">Analytics</a>
+                </li>
+
+                <li id="budgetBtn">
+                    <i class="ri-bank-card-fill"></i>
+                    <a href="budget.html">Budget</a>
+                </li>
+
+                <li id="profileBtn">
+                    <i class="ri-user-3-fill"></i>
+                    <a href="profile.html">Profile</a>
+                </li>
+
+                <li id="settingsBtn">
+                    <i class="ri-settings-3-fill"></i>
+                    <a href="settings.html">Settings</a>
+                
+                </li>
+                <li>
+    <i class="ri-admin-fill"></i>
+    <a href="admin.html">Admin</a>
+</li>
+
+            </ul>
+
+        </div>
+
+        <button class="logout" id="logoutBtn">
+
+            <i class="ri-logout-box-r-fill"></i>
+
+            Logout
+
+        </button>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1 id="welcomeText">Welcome Back 👋</h1>
+
+                <p>Track your expenses easily</p>
+
+            </div>
+
+            <div class="top-actions">
+
+                <input type="text"
+                    id="searchInput"
+                    placeholder="Search...">
+
+                <button id="addExpenseBtn">
+
+                    <i class="ri-add-line"></i>
+
+                    Add Expense
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- CARDS -->
+
+        <div class="cards">
+
+            <div class="card balance" id="balanceCard">
+
+                <div>
+
+                    <h3>Total Balance</h3>
+
+                    <h2>₹45,000</h2>
+
+                </div>
+
+                <i class="ri-wallet-fill"></i>
+
+            </div>
+
+            <div class="card income" id="incomeCard">
+
+                <div>
+
+                    <h3>Total Income</h3>
+
+                    <h2>₹60,000</h2>
+
+                </div>
+
+                <i class="ri-arrow-down-circle-fill"></i>
+
+            </div>
+
+            <div class="card expense" id="expenseCard">
+
+                <div>
+
+                    <h3>Total Expense</h3>
+
+                    <h2>₹15,000</h2>
+
+                </div>
+
+                <i class="ri-arrow-up-circle-fill"></i>
+
+            </div>
+
+            <div class="card savings" id="savingsCard">
+
+                <div>
+
+                    <h3>Total Savings</h3>
+
+                    <h2>₹30,000</h2>
+
+                </div>
+
+                <i class="ri-money-rupee-circle-fill"></i>
+
+            </div>
+
+        </div>
+        
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="quick-actions">
+
+            <div class="action-card" id="incomeAction">
+
+                <i class="ri-add-circle-fill"></i>
+
+                <h3>Add Income</h3>
+
+            </div>
+
+            <div class="action-card" id="expenseAction">
+
+                <i class="ri-shopping-bag-fill"></i>
+
+                <h3>Add Expense</h3>
+
+            </div>
+
+            <div class="action-card" id="reportAction">
+
+    <i class="ri-file-chart-fill"></i>
+
+    <h3>Reports</h3>
+
+</div>
+
+            <div class="action-card" id="notificationAction">
+
+                <i class="ri-notification-3-fill"></i>
+
+                <h3>Notifications</h3>
+
+            </div>
+
+        </div>
+
+        <!-- TRANSACTIONS -->
+
+        <div class="transaction-section">
+
+            <div class="transaction-header">
+
+                <h2>Recent Transactions</h2>
+
+                <button class="view-btn" id="viewAllBtn">
+
+                    View All
+
+                </button>
+
+            </div>
+
+        </div>
+        <!-- POPUP -->
+
+<div class="popup" id="expensePopup">
+
+    <div class="popup-box">
+
+        <h2>Add Transaction</h2>
+
+        <input type="text"
+        id="titleInput"
+        placeholder="Enter Title">
+
+        <input type="number"
+        id="amountInput"
+        placeholder="Enter Amount">
+
+        <select id="typeInput">
+
+            <option value="expense">
+                Expense
+            </option>
+
+            <option value="income">
+                Income
+            </option>
+
+        </select>
+
+        <button id="addBtn">
+            Add
+        </button>
+
+        <button id="closeBtn">
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+<!-- TOAST -->
+
+<div id="toast"></div>
+
+<!-- LIVE TIME -->
+
+<div id="liveTime"
+style="
+margin-top:20px;
+font-weight:bold;
+font-size:18px;
+">
+</div>
+
+<!-- FINANCE QUOTE -->
+
+<div id="financeQuote"
+style="
+margin-top:15px;
+color:#346beb;
+font-weight:bold;
+">
+</div>
+        <!-- FOOTER -->
+
+        <footer>
+
+            <p>
+                © 2026 Expense Tracker!!
+            </p>
+
+        </footer>
+
+    </div>
+
+ <script src="script1.js"></script>
+</body>
+
+</html> 

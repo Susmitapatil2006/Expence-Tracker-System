@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register</title>
+
+<link rel="stylesheet" href="auth.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="left">
+        <h1>💰 Expense Tracker</h1>
+        <p>Create your account & start tracking expenses smartly</p>
+    </div>
+
+    <div class="right">
+
+        <form id="registerForm">
+
+            <h2>Create Account 👤</h2>
+
+            <div class="input-box">
+                <i class="ri-user-fill"></i>
+                <input type="text" id="name" placeholder="Enter Name" required>
+            </div>
+
+            <div class="input-box">
+                <i class="ri-mail-fill"></i>
+                <input type="email" id="email" placeholder="Enter Email" required>
+            </div>
+
+            <div class="input-box">
+                <i class="ri-lock-fill"></i>
+                <input type="password" id="password" placeholder="Enter Password" required>
+            </div>
+
+            <button type="submit">Register</button>
+
+            <p>Already have account? <a href="login.html">Login</a></p>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ✅ ONLY ONE SCRIPT -->
+<script src="storage1.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    document.getElementById("registerForm").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
+
+        if (registerUser(name, email, password)) {
+            alert("Registration Successful!");
+            window.location.href = "login.html";
+        } else {
+            alert("User already exists!");
+        }
+    });
+
+});
+</script>
+
+</body>
+</html>

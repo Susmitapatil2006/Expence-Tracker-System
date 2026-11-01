@@ -1,0 +1,143 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+}
+
+/* MAIN CONTAINER */
+.container{
+    width:850px;
+    max-width:95%;
+    height:500px;
+    display:flex;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+/* LEFT SIDE */
+.left{
+    width:50%;
+    background:rgba(0,0,0,0.2);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:30px;
+}
+
+.left h1{
+    font-size:36px;
+    margin-bottom:10px;
+}
+
+.left p{
+    opacity:0.9;
+    font-size:14px;
+}
+
+/* RIGHT SIDE */
+.right{
+    width:50%;
+    background:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* FORM */
+form{
+    width:85%;
+}
+
+form h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#081028;
+}
+
+/* INPUT BOX */
+.input-box{
+    display:flex;
+    align-items:center;
+    margin-bottom:15px;
+    border:1px solid #ddd;
+    padding:10px;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.input-box:hover{
+    border-color:#346beb;
+}
+
+.input-box i{
+    margin-right:10px;
+    color:#346beb;
+}
+
+.input-box input{
+    border:none;
+    outline:none;
+    width:100%;
+    font-size:14px;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#346beb;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+/* TEXT */
+p{
+    text-align:center;
+    margin-top:15px;
+    font-size:14px;
+}
+
+a{
+    color:#346beb;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .container{
+        flex-direction:column;
+        height:auto;
+    }
+
+    .left{
+        width:100%;
+        padding:20px;
+    }
+
+    .right{
+        width:100%;
+        padding:20px;
+    }
+}

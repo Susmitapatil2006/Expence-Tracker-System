@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login</title>
+
+<link rel="stylesheet" href="auth.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="left">
+        <h1>💰 Expense Tracker</h1>
+        <p>Track your expenses smartly & easily</p>
+    </div>
+
+    <div class="right">
+
+        <form id="loginForm">
+
+            <h2>Welcome Back 👋</h2>
+
+            <div class="input-box">
+                <i class="ri-mail-fill"></i>
+                <input type="email" id="loginEmail" placeholder="Enter Email" required>
+            </div>
+
+            <div class="input-box">
+                <i class="ri-lock-fill"></i>
+                <input type="password" id="loginPassword" placeholder="Enter Password" required>
+            </div>
+
+            <button type="submit">Login</button>
+
+            <p>
+                Don't have an account?
+                <a href="register.html">Create Account</a>
+            </p>
+
+        </form>
+
+    </div>
+
+</div>
+<script src="storage1.js"></script>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let email = document.getElementById("loginEmail").value;
+    let password = document.getElementById("loginPassword").value;
+
+    if(loginUser(email, password)){
+        alert("Login Successful!");
+        window.location.href = "index.html";
+    } else {
+        alert("Invalid Credentials!");
+    }
+});
+</script>
+
+</body>
+</html> 

@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Simple Expense Tracker</title>
+
+<link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    background:#f1f5f9;
+    padding:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(10px);
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card h2{
+    margin-top:10px;
+}
+
+.green{
+    color:green;
+}
+
+.red{
+    color:red;
+}
+
+.blue{
+    color:#2563eb;
+}
+
+/* GOAL SECTION */
+
+.goal-box{
+
+    background:white;
+    padding:30px;
+    border-radius:25px;
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,0.1);
+
+    margin-bottom:30px;
+
+    transition:0.4s;
+}
+
+.goal-box:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.goal-title{
+
+    text-align:center;
+    color:#2563eb;
+
+    margin-bottom:25px;
+
+    font-size:28px;
+}
+
+.goal-inputs{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:15px;
+}
+
+.goal-inputs input{
+
+    padding:15px;
+
+    border-radius:15px;
+
+    border:1px solid #cbd5e1;
+
+    font-size:16px;
+
+    outline:none;
+
+    transition:0.3s;
+}
+
+.goal-inputs input:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:
+    0 0 10px rgba(37,99,235,0.2);
+
+}
+
+.goal-inputs button{
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:
+    linear-gradient(
+        to right,
+        #2563eb,
+        #1d4ed8
+    );
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.goal-inputs button:hover{
+
+    transform:scale(1.03);
+
+    opacity:0.9;
+
+}
+
+.progress{
+    width:100%;
+    height:20px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:15px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#2563eb;
+}
+
+.form-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.form-box input{
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+
+.form-box button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#16a34a;
+    color:white;
+    cursor:pointer;
+}
+
+.table-box{
+    overflow:auto;
+    background:white;
+    border-radius:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#2563eb;
+    color:white;
+}
+
+th,td{
+    padding:15px;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#f8fafc;
+}
+
+.action-btn{
+    padding:8px 12px;
+    border:none;
+    border-radius:8px;
+    color:white;
+    cursor:pointer;
+}
+
+.edit{
+    background:orange;
+}
+
+.delete{
+    background:red;
+}
+
+.chart-box{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    margin-top:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+
+    width:100%;
+    max-width:500px;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+    transition:0.3s;
+}
+
+.chart-box:hover{
+    transform:translateY(-5px);
+}
+
+@media(max-width:768px){
+
+    th,td{
+        padding:10px;
+        font-size:12px;
+    }
+
+}
+@media(max-width:600px){
+
+    body{
+        padding:10px;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .goal-box,
+    .form-box,
+    .chart-box{
+        padding:15px;
+    }
+
+    table{
+        font-size:12px;
+    }
+
+    th,td{
+        padding:8px;
+    }
+
+    .action-btn{
+        margin-top:5px;
+        width:100%;
+    }
+
+}
+.ring{
+    position:relative;
+    width:160px;
+    height:160px;
+    margin:20px auto;
+}
+
+.ring svg{
+    transform:rotate(-90deg);
+}
+
+.ring-text{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:24px;
+    font-weight:bold;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:#16a34a;
+    color:white;
+    padding:15px 20px;
+    border-radius:10px;
+    display:none;
+    z-index:999;
+    animation:slide 0.4s ease;
+}
+
+@keyframes slide{
+
+    from{
+        transform:translateX(100px);
+        opacity:0;
+    }
+
+    to{
+        transform:translateX(0);
+        opacity:1;
+    }
+
+}
+
+/* RECENT ACTIVITY */
+
+.activity-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-top:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.activity-item{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid #ddd;
+}
+/* =========================
+GLOBAL DARK MODE
+========================= */
+
+.dark-theme{
+background:#111827;
+color:white;
+}
+
+.dark-theme .sidebar{
+background:#000;
+}
+
+.dark-theme .card,
+.dark-theme .settings-card,
+.dark-theme .budget-box,
+.dark-theme .analytic-card,
+.dark-theme .profile-card,
+.dark-theme .detail-card,
+.dark-theme .chart-card,
+.dark-theme .transaction-item{
+background:#1f2937;
+color:white;
+}
+
+.dark-theme input,
+.dark-theme select{
+background:#374151;
+color:white;
+border:none;
+}
+
+.dark-theme .status-box{
+background:#2563eb;
+}
+
+.dark-theme p{
+color:#d1d5db;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="title">
+        <h1>Expense Tracker</h1>
+    </div>
+    <button onclick="window.location.href='analytics.html'"
+style="
+padding:12px 20px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:10px;
+margin-bottom:20px;
+cursor:pointer;
+">
+📊 View Analytics Report
+</button>
+     <input
+type="text"
+id="searchInput"
+placeholder="Search Transaction..."
+onkeyup="searchTransaction()"
+
+style="
+width:100%;
+padding:14px;
+margin-bottom:15px;
+border-radius:12px;
+border:1px solid #ccc;
+"
+/>
+
+    <!-- CARDS -->
+  
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Income</h3>
+            <h2 class="green" id="income">₹0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Expense</h3>
+            <h2 class="red" id="expense">₹0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Balance</h3>
+            <h2 class="blue" id="balance">₹0</h2>
+        </div>
+
+    </div>
+
+    <!-- SAVING GOAL -->
+    <div class="goal-box">
+
+<h2 class="goal-title">
+🎯 Saving Goal
+</h2>
+
+<div class="goal-inputs">
+
+<input
+type="text"
+id="goalName"
+placeholder="Example : Bike"
+/>
+
+<input
+type="number"
+id="goalAmount"
+placeholder="Goal Amount"
+/>
+
+<button onclick="setGoal()">
+💾 Save Goal
+</button>
+
+</div>
+
+<div class="ring">
+
+<svg width="160" height="160">
+
+<circle
+cx="80"
+cy="80"
+r="70"
+stroke="#ddd"
+stroke-width="12"
+fill="none"
+/>
+
+<circle
+id="progressCircle"
+cx="80"
+cy="80"
+r="70"
+stroke="#2563eb"
+stroke-width="12"
+fill="none"
+stroke-linecap="round"
+stroke-dasharray="440"
+stroke-dashoffset="440"
+/>
+
+</svg>
+
+<div class="ring-text"
+id="progressPercent">
+
+0%
+
+</div>
+
+</div>
+
+<h3 id="goalText">
+No Goal Set
+</h3>
+
+<p id="goalStatus"></p>
+</div>
+
+    <!-- ADD TRANSACTION -->
+
+    <div class="form-box">
+
+        <h2>Add Transaction</h2>
+
+        <input type="text"
+        id="name"
+        placeholder="Transaction Name">
+
+        <input type="date"
+        id="date">
+
+        <input type="text"
+        id="category"
+        placeholder="Category">
+
+        <input type="number"
+        id="amount"
+        placeholder="Use negative for expense">
+
+        <button onclick="addTransaction()">
+            Add Transaction
+        </button>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-box">
+
+        <table id="table">
+
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- CHART -->
+
+    <div class="chart-box">
+
+        <canvas id="chart"
+style="
+max-width:300px;
+max-height:300px;
+margin:auto;
+display:block;
+">
+</canvas>
+
+    </div>
+    <!-- RECENT ACTIVITY -->
+
+<div class="activity-box">
+
+<h2>Recent Activity</h2>
+
+<div id="recentActivity">
+
+No Recent Transactions
+
+</div>
+
+</div>
+
+<!-- TOAST -->
+
+<div class="toast"
+id="toast">
+
+Success
+
+</div>
+
+</div>
+
+<script>
+
+let currentUser = localStorage.getItem("currentUser");
+
+if (!currentUser) {
+    window.location.href = "login.html";
+}
+let transactions =
+JSON.parse(
+localStorage.getItem(`transactions_${currentUser}`)
+) || [];
+
+let savingGoal =
+localStorage.getItem(`savingGoal_${currentUser}`) || 0;
+
+let savingName =
+localStorage.getItem(`savingName_${currentUser}`) || "";
+
+const table =
+document.getElementById("table");
+
+/* LOAD */
+
+function loadData(){
+
+    table.innerHTML = `
+
+    <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    `;
+
+    transactions.forEach((item,index)=>{
+
+        let row = table.insertRow();
+
+        row.innerHTML = `
+
+        <td>${item.name}</td>
+        <td>${item.date}</td>
+        <td>${item.category}</td>
+
+        <td>
+        ₹${item.amount}
+        </td>
+
+        <td class="${
+            item.amount < 0
+            ? 'red'
+            : 'green'
+        }">
+
+        ${
+            item.amount < 0
+            ? 'Expense'
+            : 'Income'
+        }
+
+        </td>
+
+        <td>
+
+        <button class="action-btn edit"
+        onclick="editTransaction(${index})">
+
+        Edit
+
+        </button>
+
+        <button class="action-btn delete"
+        onclick="deleteTransaction(${index})">
+
+        Delete
+
+        </button>
+
+        </td>
+
+        `;
+
+    });
+
+    updateSummary();
+    updateGoal();
+    updateChart();
+
+}
+
+/* ADD */
+
+function addTransaction(){
+
+    let name =
+    document.getElementById("name").value;
+
+    let date =
+    document.getElementById("date").value;
+
+    let category =
+    document.getElementById("category").value;
+
+    let amount =
+    parseInt(
+    document.getElementById("amount").value
+    );
+
+    if(
+        name==="" ||
+        date==="" ||
+        category==="" ||
+        isNaN(amount)
+    ){
+
+        alert("Fill all fields");
+        return;
+
+    }
+
+    transactions.push({
+    name,
+    date,
+    category,
+    amount
+});
+    localStorage.setItem(
+`transactions_${currentUser}`,
+JSON.stringify(transactions)
+);
+
+    loadData();
+    showToast("✅ Transaction Added");
+    window.dispatchEvent(new Event("storage"));
+
+    document.getElementById("name").value="";
+    document.getElementById("date").value="";
+    document.getElementById("category").value="";
+    document.getElementById("amount").value="";
+
+}
+
+/* DELETE */
+
+function deleteTransaction(index){
+
+    transactions.splice(index,1);
+
+    localStorage.setItem(
+`transactions_${currentUser}`,
+JSON.stringify(transactions)
+);
+
+    loadData();
+    showToast("❌ Transaction Deleted");
+
+}
+
+/* EDIT */
+
+function editTransaction(index){
+
+    let item = transactions[index];
+
+    let newName =
+    prompt("Edit Name",item.name);
+
+    let newCategory =
+    prompt("Edit Category",item.category);
+
+    let newAmount =
+    prompt("Edit Amount",item.amount);
+
+    transactions[index] = {
+
+        ...item,
+
+        name:newName,
+        category:newCategory,
+        amount:parseInt(newAmount)
+
+    };
+
+    localStorage.setItem(
+`transactions_${currentUser}`,
+JSON.stringify(transactions)
+);
+
+    loadData();
+    showToast("✏ Transaction Updated");
+
+}
+
+/* SUMMARY */
+
+function updateSummary(){
+
+    let income = 0;
+    let expense = 0;
+
+    transactions.forEach(item=>{
+
+        if(item.amount > 0){
+
+            income += item.amount;
+
+        }
+
+        else{
+
+            expense +=
+            Math.abs(item.amount);
+
+        }
+
+    });
+
+    document.getElementById("income")
+    .innerText =
+    "₹" + income;
+
+    document.getElementById("expense")
+    .innerText =
+    "₹" + expense;
+
+    document.getElementById("balance")
+    .innerText =
+    "₹" + (income-expense);
+
+}
+
+/* GOAL */
+
+function setGoal(){
+
+    savingName =
+    document.getElementById("goalName").value;
+
+    savingGoal =
+    parseInt(
+    document.getElementById("goalAmount").value
+    );
+
+    localStorage.setItem(
+`savingName_${currentUser}`,
+savingName
+);
+
+localStorage.setItem(
+`savingGoal_${currentUser}`,
+savingGoal
+);
+
+    updateGoal();
+
+}
+
+function updateGoal(){
+
+    let income = 0;
+    let expense = 0;
+
+    transactions.forEach(item=>{
+
+        if(item.amount > 0){
+
+            income += item.amount;
+
+        }
+
+        else{
+
+            expense +=
+            Math.abs(item.amount);
+
+        }
+
+    });
+
+    let savings =
+    income-expense;
+
+    let percent =
+    (savings/savingGoal)*100;
+
+    if(percent > 100){
+
+        percent = 100;
+
+    }
+
+    if(isNaN(percent)){
+
+        percent = 0;
+
+    }
+
+    document.getElementById("goalText")
+    .innerText =
+    "Saving For : " +
+    savingName;
+
+    document.getElementById("goalStatus")
+    .innerHTML =
+
+    `
+    Saved ₹${savings}
+    of ₹${savingGoal}
+    `;
+
+    document.getElementById("progressPercent")
+    .innerText =
+    Math.floor(percent) + "%";
+
+    let circle =
+    document.getElementById("progressCircle");
+
+    let offset =
+    440 - (440 * percent)/100;
+
+    circle.style.strokeDashoffset =
+    offset;
+
+}
+
+/* CHART */
+
+const ctx =
+document.getElementById("chart");
+
+let myChart =
+new Chart(ctx,{
+
+    type:"doughnut",
+
+    data:{
+
+        labels:[
+            "Income",
+            "Expense",
+            "Savings"
+        ],
+
+        datasets:[{
+
+            data:[0,0,0],
+
+            backgroundColor:[
+                "#22c55e",
+                "#ef4444",
+                "#2563eb"
+            ]
+
+        }]
+
+    }
+
+});
+function showToast(message){
+
+    let toast =
+    document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.style.display = "block";
+
+    setTimeout(()=>{
+
+        toast.style.display = "none";
+
+    },2000);
+
+}
+
+function updateChart(){
+
+    let income = 0;
+    let expense = 0;
+
+    transactions.forEach(item=>{
+
+        if(item.amount > 0){
+
+            income += item.amount;
+
+        }
+
+        else{
+
+            expense +=
+            Math.abs(item.amount);
+
+        }
+
+    });
+
+    let savings =
+    income-expense;
+
+    myChart.data.datasets[0].data =
+    [income,expense,savings];
+
+    myChart.update();
+
+}
+
+loadData();
+updateRecentActivity();
+function updateRecentActivity(){
+
+    let activity =
+    document.getElementById(
+    "recentActivity"
+    );
+
+    activity.innerHTML = "";
+
+    let latest =
+    [...transactions].reverse().slice(0,5);
+
+    latest.forEach(item=>{
+
+        let icon = "💰";
+
+        if(item.category
+        .toLowerCase().includes("food")){
+
+            icon = "🍔";
+
+        }
+
+        else if(item.category
+        .toLowerCase().includes("travel")){
+
+            icon = "✈";
+
+        }
+
+        else if(item.category
+        .toLowerCase().includes("shopping")){
+
+            icon = "🛍";
+
+        }
+
+        let div =
+        document.createElement("div");
+
+        div.classList.add(
+        "activity-item"
+        );
+
+        div.innerHTML = `
+
+        <div>
+
+        ${icon}
+        ${item.name}
+
+        </div>
+
+        <div>
+
+        ₹${item.amount}
+
+        </div>
+
+        `;
+
+        activity.appendChild(div);
+
+    });
+
+}
+window.addEventListener("storage", () => {
+    location.reload();
+});
+function searchTransaction(){
+
+    let input =
+    document.getElementById("searchInput")
+    .value.toLowerCase();
+
+    let rows =
+    document.querySelectorAll("#table tr");
+
+    rows.forEach((row,index)=>{
+
+        if(index===0) return;
+
+        let text =
+        row.innerText.toLowerCase();
+
+        row.style.display =
+        text.includes(input)
+        ? ""
+        : "none";
+
+    });
+
+}
+// ==========================
+// LOAD THEME
+// ==========================
+
+let savedTheme =
+localStorage.getItem("theme");
+
+if(savedTheme === "dark"){
+
+document.body.classList.add(
+"dark-theme"
+);
+
+}
+</script>
+
+</body>
+</html> 

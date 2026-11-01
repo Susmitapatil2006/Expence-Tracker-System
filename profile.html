@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+
+  <link rel="stylesheet" href="profile.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>Expense Tracker</h2>
+    <ul>
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="transactions.html">Transactions</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="budget.html">Budget</a></li>
+      <li class="active"><a href="profile.html">Profile</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- PROFILE CARD -->
+    <div class="profile-card">
+      <img src="myphoto.jpg" alt="Profile">
+
+      <h2 id="userName">Loading...</h2>
+
+      <p><i class="ri-mail-fill"></i> <span id="userEmail"></span></p>
+      <p><i class="ri-phone-fill"></i> <span id="userPhone"></span></p>
+      <p><i class="ri-map-pin-fill"></i> Solapur, Maharashtra</p>
+
+      <button onclick="editProfile()">
+        <i class="ri-edit-box-fill"></i> Edit Profile
+      </button>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="details-section">
+
+      <div class="detail-card">
+        <h3>Total Expense</h3>
+        <p id="totalExpense">₹0</p>
+      </div>
+
+      <div class="detail-card">
+        <h3>Total Income</h3>
+        <p id="totalIncome">₹0</p>
+      </div>
+
+      <div class="detail-card">
+        <h3>Total Savings</h3>
+        <p id="totalSavings">₹0</p>
+      </div>
+
+      <div class="detail-card">
+        <h3>Total Transactions</h3>
+        <p id="totalTransactions">0</p>
+      </div>
+
+    </div>
+
+    <!-- ACTIVITY -->
+    <div class="activity-section">
+      <h2>Recent Activity</h2>
+      <div id="recentActivity">No Recent Transactions</div>
+    </div>
+
+    <div class="status-box" id="statusBox">Profile Ready</div>
+
+  </div>
+
+  <!-- JS -->
+  <script>
+
+    /* =========================
+       CURRENT USER CHECK
+    ========================== */
+    let currentUser = localStorage.getItem("currentUser");
+
+    if (!currentUser) {
+      window.location.href = "login.html";
+    }
+
+    /* =========================
+       LOAD DATA (USER WISE)
+    ========================== */
+
+    let transactions =
+      JSON.parse(localStorage.getItem(`transactions_${currentUser}`)) || [];
+
+    let profile =
+      JSON.parse(localStorage.getItem(`profile_${currentUser}`)) || {};
+
+    /* =========================
+       SHOW PROFILE
+    ========================== */
+
+    function loadProfile() {
+      let users = JSON.parse(
+localStorage.getItem("users")
+) || [];
+
+let currentUserData = users.find(
+user => user.email === currentUser
+);
+
+document.getElementById("userName").innerText =
+
+profile.name ||
+
+(currentUserData
+? currentUserData.name
+: currentUser);
+
+      document.getElementById("userEmail").innerText =
+        profile.email || currentUser;
+
+      document.getElementById("userPhone").innerText =
+        profile.phone || "Not Added";
+    }
+
+    loadProfile();
+
+    /* =========================
+       EDIT PROFILE
+    ========================== */
+
+    function editProfile() {
+
+      let newName = prompt("Enter New Name");
+      let newEmail = prompt("Enter New Email");
+      let newPhone = prompt("Enter New Phone");
+
+      profile = {
+        name: newName || profile.name || "",
+        email: newEmail || profile.email || currentUser,
+        phone: newPhone || profile.phone || ""
+      };
+
+      localStorage.setItem(
+        `profile_${currentUser}`,
+        JSON.stringify(profile)
+      );
+
+      loadProfile();
+
+      document.getElementById("statusBox").innerText =
+        "✅ Profile Updated Successfully";
+    }
+
+    /* =========================
+       TOTAL CALCULATION
+    ========================== */
+
+    let income = 0;
+    let expense = 0;
+
+    transactions.forEach(t => {
+      if (t.amount > 0) income += t.amount;
+      else expense += Math.abs(t.amount);
+    });
+
+    document.getElementById("totalIncome").innerText = `₹${income}`;
+    document.getElementById("totalExpense").innerText = `₹${expense}`;
+    document.getElementById("totalSavings").innerText = `₹${income - expense}`;
+    document.getElementById("totalTransactions").innerText = transactions.length;
+
+    /* =========================
+       RECENT ACTIVITY
+    ========================== */
+
+    function updateRecentActivity() {
+
+      let box = document.getElementById("recentActivity");
+      box.innerHTML = "";
+
+      let latest = [...transactions].reverse().slice(0, 5);
+
+      if (latest.length === 0) {
+        box.innerHTML = "No Recent Transactions";
+        return;
+      }
+
+      latest.forEach(item => {
+
+        let icon = item.amount < 0 ? "🛒" : "💰";
+
+        let div = document.createElement("div");
+        div.className = "activity-box";
+
+        div.innerHTML = `
+          <p>${icon} ${item.name} - ₹${Math.abs(item.amount)}</p>
+        `;
+
+        box.appendChild(div);
+      });
+    }
+
+    updateRecentActivity();
+    // ==========================
+// LOAD THEME
+// ==========================
+
+let savedTheme =
+localStorage.getItem("theme");
+
+if(savedTheme === "dark"){
+
+document.body.classList.add(
+"dark-theme"
+);
+
+}
+
+  </script>
+
+</body>
+</html>

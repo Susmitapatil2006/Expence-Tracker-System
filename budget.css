@@ -1,0 +1,526 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body{
+    display: flex;
+    background: #eef1f6;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width: 260px;
+    height: 100vh;
+    background: #081028;
+    color: white;
+    padding: 25px;
+    position: fixed;
+}
+
+.sidebar h2{
+    margin-bottom: 40px;
+    font-size: 30px;
+}
+
+.sidebar ul{
+    list-style: none;
+}
+
+.sidebar ul li{
+    padding: 16px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.3s;
+}
+
+.sidebar ul li:hover{
+    background: #346beb;
+}
+
+.sidebar .active{
+    background: #346beb;
+}
+
+.sidebar a{
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+}
+
+/* MAIN */
+
+.main{
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    padding: 35px;
+}
+
+/* HEADER */
+
+.budget-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.budget-header h1{
+    font-size: 40px;
+}
+
+.budget-header p{
+    color: gray;
+    margin-top: 8px;
+}
+
+.budget-header button{
+    padding: 14px 22px;
+    border: none;
+    background: #346beb;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.budget-header button:hover{
+    background: #204ecf;
+}
+
+/* BUDGET BOXES */
+
+.budget-container{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.budget-box{
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.budget-box:hover{
+    transform: translateY(-5px);
+}
+
+.budget-box i{
+    font-size: 45px;
+    color: #346beb;
+    margin-bottom: 15px;
+}
+
+.budget-box h2{
+    margin-bottom: 10px;
+}
+
+.budget-box p{
+    font-size: 28px;
+    font-weight: bold;
+    color: #081028;
+}
+
+/* PROGRESS SECTION */
+
+.progress-section{
+    margin-top: 30px;
+}
+
+.progress-card{
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.progress-top{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.progress-bar{
+    width: 100%;
+    height: 15px;
+    background: #dbe4f0;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill{
+    width: 75%;
+    height: 100%;
+    background: #346beb;
+}
+
+.progress-card p{
+    margin-top: 12px;
+    color: gray;
+}
+
+/* CATEGORY */
+
+.category-section{
+    margin-top: 30px;
+}
+
+.category-section h2{
+    margin-bottom: 20px;
+}
+
+.category-container{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+}
+
+.category-box{
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.category-box i{
+    font-size: 35px;
+    color: #346beb;
+    margin-bottom: 10px;
+}
+
+.category-box h3{
+    margin-bottom: 10px;
+}
+
+.category-box p{
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* GOAL SECTION */
+
+.goal-section{
+    margin-top: 30px;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.goal-section h2{
+    margin-bottom: 10px;
+}
+
+.goal-section p{
+    color: gray;
+    margin-bottom: 15px;
+}
+
+.goal-bar{
+    width: 100%;
+    height: 15px;
+    background: #dbe4f0;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.goal-fill{
+    width: 60%;
+    height: 100%;
+    background: #22c55e;
+}
+
+.goal-section span{
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+/* STATUS */
+
+.status-box{
+    margin-top: 30px;
+    background: #346beb;
+    color: white;
+    padding: 18px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 18px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    .budget-container,
+    .category-container{
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media(max-width:768px){
+
+    body{
+        flex-direction: column;
+    }
+
+    .sidebar{
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main{
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .budget-header{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+}
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+body{
+flex-direction:column;
+}
+
+.sidebar{
+
+width:100%;
+height:auto;
+position:relative;
+
+}
+
+.sidebar ul{
+
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
+
+}
+
+.sidebar ul li{
+
+margin-bottom:0;
+
+}
+
+.main{
+
+margin-left:0;
+padding:15px;
+
+}
+
+.budget-header{
+
+flex-direction:column;
+gap:15px;
+text-align:center;
+
+}
+
+}
+
+@media(max-width:600px){
+
+.sidebar ul{
+
+flex-direction:column;
+
+}
+
+.sidebar ul li{
+
+width:100%;
+justify-content:center;
+
+}
+
+.budget-container,
+.category-container{
+
+grid-template-columns:1fr;
+
+}
+
+}
+.menu-btn{
+    display:none;
+    position:fixed;
+    top:15px;
+    left:15px;
+    background:#2563eb;
+    color:white;
+    width:45px;
+    height:45px;
+    border-radius:10px;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    z-index:2000;
+    cursor:pointer;
+}
+
+@media(max-width:768px){
+
+    .menu-btn{
+        display:flex;
+    }
+
+    .sidebar{
+        position:fixed;
+        left:-260px;
+        top:0;
+        width:260px;
+        height:100vh;
+        z-index:1500;
+        transition:0.4s;
+    }
+
+    .sidebar.activeSidebar{
+        left:0;
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:15px;
+    }
+
+}
+.dark-mode{
+background:#111827;
+color:white;
+}
+
+.dark-mode .budget-box,
+.dark-mode .category-box,
+.dark-mode .progress-card,
+.dark-mode .goal-section{
+background:#1f2937;
+color:white;
+}
+@media(max-width:768px){
+
+body{
+flex-direction:column;
+}
+
+.sidebar{
+
+width:100%;
+height:auto;
+position:relative;
+
+}
+
+.main{
+
+margin-left:0;
+padding:15px;
+
+}
+
+.budget-container,
+.category-container{
+
+grid-template-columns:1fr;
+
+}
+
+.budget-header{
+
+flex-direction:column;
+gap:15px;
+text-align:center;
+
+}
+
+.budget-header button{
+
+width:100%;
+
+}
+
+.progress-card,
+.goal-section,
+.category-box,
+.budget-box{
+
+width:100%;
+
+}
+
+canvas{
+
+max-width:100%;
+
+}
+
+}
+/* =========================
+GLOBAL DARK MODE
+========================= */
+
+.dark-theme{
+background:#111827;
+color:white;
+}
+
+.dark-theme .sidebar{
+background:#000;
+}
+
+.dark-theme .card,
+.dark-theme .settings-card,
+.dark-theme .budget-box,
+.dark-theme .analytic-card,
+.dark-theme .profile-card,
+.dark-theme .detail-card,
+.dark-theme .chart-card,
+.dark-theme .transaction-item{
+background:#1f2937;
+color:white;
+}
+
+.dark-theme input,
+.dark-theme select{
+background:#374151;
+color:white;
+border:none;
+}
+
+.dark-theme .status-box{
+background:#2563eb;
+}
+
+.dark-theme p{
+color:#d1d5db;
+}
+budgetChart{
+    width: 250px !important;
+    height: 250px !important;
+    margin: auto;
+    display: block;
+}
